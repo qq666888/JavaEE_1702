@@ -11,10 +11,11 @@
     <title>index</title>
 </head>
 <body>
-<h1>Hello, JSP!</h1>
+<!-- <h1>Hello, JSP!</h1> -->
 <pre>
     部署
     deploy
+    war web archive jar java archive
 </pre>
 </body>
 </html>
