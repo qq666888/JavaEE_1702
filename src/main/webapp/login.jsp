@@ -1,4 +1,8 @@
-<%@ page import="com.mysql.jdbc.Driver" %><%--
+<%@ page import="com.mysql.jdbc.Driver" %>
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.DriverManager" %>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.ResultSet" %><%--
   Created by IntelliJ IDEA.
   User: mingfei
   Date: 6/7/17
@@ -16,7 +20,20 @@
     String password = request.getParameter("password");
 
     new Driver();
+    Connection connection = DriverManager.getConnection("jdbc:mysql:///?user=root&password=system");
+    String sql = "SELECT * FROM db_javaee.user WHERE mobile=? AND password=?";
+    PreparedStatement statement = connection.prepareStatement(sql);
+    statement.setString(1, mobile);
+    statement.setString(2, password);
+    ResultSet resultSet = statement.executeQuery();
 
+    if (resultSet.next()) {
+        // success
+        response.sendRedirect("home.jsp");
+    } else {
+        // failed
+        response.sendRedirect("index.jsp");
+    }
 %>
 </body>
 </html>
