@@ -13,5 +13,6 @@ CREATE TABLE db_javaee.user (
   COMMENT '密码'
 )
   COMMENT '用户表';
-  
-  
+
+SELECT *
+FROM db_javaee.user;
