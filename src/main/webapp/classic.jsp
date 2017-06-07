@@ -14,7 +14,6 @@
     // ... *.jsp > *.java > *.class
     // classic_jsp.java
 //    }
-
     int count = 10;
 %>
 
@@ -59,8 +58,8 @@
 </table>
 <hr>
 当前的时间是：
-<%-- 下面是使用表达式的例子 --%>
-<%=getDate()%>
+<%-- 下面是使用表达式的例子 address http://192.168.31.105:8080/classic.jsp --%>
+<%=request.getRemoteAddr()%>
 </div>
 </body>
 </html>
