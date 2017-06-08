@@ -40,8 +40,10 @@
 
     if (resultSet.next()) {
         // success
+        System.out.println(resultSet.getString("nick"));
         request.setAttribute("nick", resultSet.getString("nick"));
-        response.sendRedirect("home.jsp"); //
+//        response.sendRedirect("home.jsp"); // 不能保存 request 范围内的属性
+        request.getRequestDispatcher("home.jsp").forward(request, response); // 可以保存
     } else {
         // failed
 //        response.sendRedirect("index.jsp"); // redirect 重定向 地址栏地址有变化
