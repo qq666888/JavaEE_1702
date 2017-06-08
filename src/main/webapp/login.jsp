@@ -40,8 +40,9 @@
 
     if (resultSet.next()) {
         // success
-        System.out.println(resultSet.getString("nick"));
-        request.setAttribute("nick", resultSet.getString("nick"));
+//        System.out.println(resultSet.getString("nick"));
+//        request.setAttribute("nick", resultSet.getString("nick"));
+        session.setAttribute("nick", resultSet.getString("nick"));
 //        response.sendRedirect("home.jsp"); // 不能保存 request 范围内的属性
         request.getRequestDispatcher("home.jsp").forward(request, response); // 可以保存
     } else {
