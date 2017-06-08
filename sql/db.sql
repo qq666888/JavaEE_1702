@@ -15,4 +15,5 @@ CREATE TABLE db_javaee.user (
   COMMENT '用户表';
 
 SELECT *
-FROM db_javaee.user;
+FROM db_javaee.user
+WHERE nick = 'tom' OR mobile = '18611112222';
