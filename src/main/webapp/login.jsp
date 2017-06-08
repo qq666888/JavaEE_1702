@@ -14,6 +14,16 @@
 <head>
     <title>Title</title>
 </head>
+<pre>
+    request:
+        getRemoteAddr()
+        getParameter()
+        getRequestDispatcher().forward()
+        setAttribute()
+        getAttribute()
+    response:
+        sendRedirect()
+</pre>
 <body>
 <%
     String mobile = request.getParameter("mobile");
@@ -27,8 +37,10 @@
     statement.setString(2, password);
     ResultSet resultSet = statement.executeQuery();
 
+
     if (resultSet.next()) {
         // success
+        request.setAttribute("nick", resultSet.getString("nick"));
         response.sendRedirect("home.jsp"); //
     } else {
         // failed
@@ -37,6 +49,10 @@
         request.getRequestDispatcher("index.jsp")
                 .forward(request, response); // forward 转发 地址栏地址没有变化
     }
+
+    resultSet.close();
+    statement.close();
+    connection.close();
 %>
 </body>
 </html>

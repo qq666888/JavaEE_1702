@@ -11,6 +11,7 @@
     <title>sign up page</title>
 </head>
 <body>
+<h1>注册</h1>
 <pre>
 Ctrl + Shift + F10
 Ctrl + Shift + R

@@ -11,6 +11,7 @@
     <title>Title</title>
 </head>
 <body>
-<h1>home page</h1>
+<h1>主页</h1>
+<p><%=request.getAttribute("nick")%></p>
 </body>
 </html>
