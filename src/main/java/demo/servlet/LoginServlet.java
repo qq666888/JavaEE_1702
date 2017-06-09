@@ -33,6 +33,8 @@ public class LoginServlet extends HttpServlet {
             if (connection != null) {
                 statement = connection.prepareStatement(sql);
             } else {
+                req.setAttribute("message", "出现了一点情况...");
+                req.getRequestDispatcher("index.jsp").forward(req, resp);
                 return;
             }
             statement.setString(1, mobile);
@@ -40,7 +42,7 @@ public class LoginServlet extends HttpServlet {
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 req.getSession().setAttribute("nick", resultSet.getString("nick"));
-                req.getRequestDispatcher("home.jsp").forward(req, resp);
+                resp.sendRedirect("home.jsp");
             } else {
                 req.setAttribute("message", "用户名或密码错误");
                 req.getRequestDispatcher("index.jsp").forward(req, resp);
