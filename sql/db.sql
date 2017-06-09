@@ -15,5 +15,6 @@ CREATE TABLE db_javaee.user (
   COMMENT '用户表';
 
 SELECT *
-FROM db_javaee.user
-WHERE nick = 'tom' OR mobile = '18611112222';
+FROM db_javaee.user;
+
+TRUNCATE TABLE db_javaee.user;

@@ -18,11 +18,8 @@
 <body>
 <%
     String nick = request.getParameter("nick");
-    out.println(nick);
     String mobile = request.getParameter("mobile");
-    out.println(mobile);
     String password = request.getParameter("password");
-    out.println(password);
 
     String[] hobbies = request.getParameterValues("hobbies");
     String[] cities = request.getParameterValues("cities");
@@ -38,6 +35,7 @@
     statement.setString(1, nick);
     ResultSet resultSet = statement.executeQuery();
     boolean isNickExist = resultSet.next();
+
     String sqlMobile = "SELECT * FROM db_javaee.user WHERE mobile = ?";
     statement = connection.prepareStatement(sqlMobile);
     statement.setString(1, mobile);
