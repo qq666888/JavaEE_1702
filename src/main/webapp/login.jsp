@@ -1,36 +1,12 @@
-<%@ page import="com.mysql.jdbc.Driver" %>
 <%@ page import="java.sql.Connection" %>
-<%@ page import="java.sql.DriverManager" %>
 <%@ page import="java.sql.PreparedStatement" %>
-<%@ page import="java.sql.ResultSet" %><%--
-  Created by IntelliJ IDEA.
-  User: mingfei
-  Date: 6/7/17
-  Time: 14:16
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<pre>
-    request:
-        getRemoteAddr()
-        getParameter()
-        getRequestDispatcher().forward()
-        setAttribute()
-        getAttribute()
-    response:
-        sendRedirect()
-</pre>
-<body>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="demo.util.Db" %>
 <%
     String mobile = request.getParameter("mobile");
     String password = request.getParameter("password");
 
-    new Driver();
-    Connection connection = DriverManager.getConnection("jdbc:mysql:///?user=root&password=system");
+    Connection connection = Db.getConnection();
     String sql = "SELECT * FROM db_javaee.user WHERE mobile=? AND password=?";
     PreparedStatement statement = connection.prepareStatement(sql);
     statement.setString(1, mobile);
@@ -52,10 +28,5 @@
         request.getRequestDispatcher("index.jsp")
                 .forward(request, response); // forward 转发 地址栏地址没有变化
     }
-
-    resultSet.close();
-    statement.close();
-    connection.close();
+    Db.close(resultSet, statement, connection);
 %>
-</body>
-</html>

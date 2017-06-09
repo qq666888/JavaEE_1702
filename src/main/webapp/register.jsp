@@ -1,34 +1,22 @@
-<%@ page import="com.mysql.jdbc.Driver" %>
 <%@ page import="java.sql.Connection" %>
-<%@ page import="java.sql.DriverManager" %>
 <%@ page import="java.sql.PreparedStatement" %>
 <%@ page import="java.util.Arrays" %>
-<%@ page import="java.sql.ResultSet" %><%--
-  Created by IntelliJ IDEA.
-  User: mingfei
-  Date: 6/7/17
-  Time: 10:05
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="demo.util.Db" %>
 <%
-    String nick = request.getParameter("nick");
-    String mobile = request.getParameter("mobile");
+    String nick = request.getParameter("nick").trim();
+    String mobile = request.getParameter("mobile").trim();
     String password = request.getParameter("password");
+
+    if (nick.length() == 0 || mobile.length() == 0 || password.length() == 0) {
+        request.setAttribute("message", "....");
+        request.getRequestDispatcher("signup.jsp").forward(request, response);
+    }
 
     String[] hobbies = request.getParameterValues("hobbies");
     String[] cities = request.getParameterValues("cities");
 
-    System.out.println("hobbies: " + Arrays.toString(hobbies));
-    System.out.println("cities: " + Arrays.toString(cities));
-
-    new Driver();
-    Connection connection = DriverManager.getConnection("jdbc:mysql:///?user=root&password=system");
+    Connection connection = Db.getConnection();
 
     String sqlNick = "SELECT * FROM db_javaee.user WHERE nick = ?";
     PreparedStatement statement = connection.prepareStatement(sqlNick);
@@ -49,17 +37,15 @@
         request.setAttribute("message", "手机号已经存在");
         request.getRequestDispatcher("signup.jsp").forward(request, response);
     } else {
-        String sql = "INSERT INTO db_javaee.user VALUE (NULL ,?,?,?)";
+        String sql = "INSERT INTO db_javaee.user VALUE (NULL ,?,?,?,?,?)";
         statement = connection.prepareStatement(sql);
         statement.setString(1, nick);
         statement.setString(2, mobile);
         statement.setString(3, password);
+        statement.setString(4, Arrays.toString(hobbies));
+        statement.setString(5, Arrays.toString(cities));
         statement.executeUpdate();
         response.sendRedirect("index.jsp");
     }
-    resultSet.close();
-    statement.close();
-    connection.close();
+    Db.close(resultSet, statement, connection);
 %>
-</body>
-</html>
