@@ -12,7 +12,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
 
 /**
  * Created by mingfei.net@gmail.com
@@ -24,29 +23,6 @@ public class UserAction extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
-/*
-        if (action == null) {
-            req.setAttribute("message", "出现了一点问题。。。");
-            req.getRequestDispatcher("index.jsp").forward(req, resp);
-            return;
-        }
-
-        switch (action) {
-            case "register":
-                register(req, resp);
-                break;
-            case "login":
-                login(req, resp);
-                break;
-            case "logout":
-                logout(req, resp);
-                break;
-            default:
-                break;
-        }
-
-     */
-
         if ("register".equals(action)) { // action.equals NPE
             register(req, resp);
             return;
@@ -62,7 +38,6 @@ public class UserAction extends HttpServlet {
 
         req.setAttribute("message", "出现了一点问题。。。");
         req.getRequestDispatcher("index.jsp").forward(req, resp);
-
     }
 
     private void register(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -74,9 +49,6 @@ public class UserAction extends HttpServlet {
             req.setAttribute("message", "....");
             req.getRequestDispatcher("signup.jsp").forward(req, resp);
         }
-
-        String[] hobbies = req.getParameterValues("hobbies");
-        String[] cities = req.getParameterValues("cities");
 
         Connection connection = Db.getConnection();
         PreparedStatement statement = null;
@@ -105,13 +77,11 @@ public class UserAction extends HttpServlet {
                 req.setAttribute("message", "手机号已经存在");
                 req.getRequestDispatcher("signup.jsp").forward(req, resp);
             } else {
-                String sql = "INSERT INTO db_javaee.user VALUE (NULL ,?,?,?,?,?)";
+                String sql = "INSERT INTO db_javaee.user VALUE (NULL ,?,?,?)";
                 statement = connection.prepareStatement(sql);
                 statement.setString(1, nick);
                 statement.setString(2, mobile);
                 statement.setString(3, password);
-                statement.setString(4, Arrays.toString(hobbies));
-                statement.setString(5, Arrays.toString(cities));
                 statement.executeUpdate();
                 resp.sendRedirect("index.jsp");
             }
