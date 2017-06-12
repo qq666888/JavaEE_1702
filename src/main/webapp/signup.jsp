@@ -21,9 +21,8 @@ Ctrl + Option + R
 
 </pre>
 <form action="user" method="post">
-    <input type="hidden" name="action" value="register">
     <input type="text" name="nick" placeholder="昵称"><br>
-    <input type="text" name="mobile" placeholder="手机号"><br>
+    <input type="text" name="mobile" placeholder="手机号" value="18612345678"><br>
     <input type="password" name="password" placeholder="密码"><br>
     hobbies：
     <input type="checkbox" name="hobbies" value="TV">TV
