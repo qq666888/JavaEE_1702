@@ -44,7 +44,7 @@ public class LoginServlet extends HttpServlet {
                 req.getSession().setAttribute("nick", resultSet.getString("nick"));
                 resp.sendRedirect("home.jsp");
             } else {
-                req.setAttribute("message", "用户名或密码错误");
+                req.setAttribute("message", "手机号或密码错误");
                 req.getRequestDispatcher("index.jsp").forward(req, resp);
             }
         } catch (SQLException e) {
