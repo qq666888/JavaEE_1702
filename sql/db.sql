@@ -40,14 +40,6 @@ TRUNCATE TABLE db_javaee.student;
 
 
 
-
-
-
-
-
-
-
-
 /*
 
 学生信息

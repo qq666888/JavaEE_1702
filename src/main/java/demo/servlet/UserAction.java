@@ -113,7 +113,7 @@ public class UserAction extends HttpServlet {
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 req.getSession().setAttribute("nick", resultSet.getString("nick"));
-                resp.sendRedirect("index.jsp");
+                resp.sendRedirect("student?action=queryAll"); // ***
             } else {
                 req.setAttribute("message", "手机号或密码错误");
                 req.getRequestDispatcher("default.jsp").forward(req, resp);
