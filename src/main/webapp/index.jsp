@@ -17,6 +17,14 @@
         function del() {
             return confirm('DEL?');
         }
+
+        function selectAll() {
+            var cb = document.getElementById('cb');
+            var items = document.getElementsByClassName('to_be_delete');
+            for (var i = 0; i < items.length; i++) {
+                items[i].checked = cb.checked;
+            }
+        }
     </script>
 </head>
 <body>
@@ -35,32 +43,36 @@
     <input type="submit" value="添加">
 </form>
 <hr>
-<table border="1">
-    <c:choose>
-        <c:when test="${fn:length(sessionScope.students) eq 0}">
-            当前没有记录
-        </c:when>
-        <c:otherwise>
+<form action="student" method="post">
+    <input type="hidden" name="action" value="batchRemove">
+    <table border="1">
+        <c:choose>
+            <c:when test="${fn:length(sessionScope.students) eq 0}">
+                当前没有记录
+            </c:when>
+            <c:otherwise>
+                <tr>
+                    <th><input id="cb" type="checkbox" onclick="selectAll()">序号</th>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>出生日期</th>
+                    <th colspan="2">操作</th>
+                </tr>
+            </c:otherwise>
+        </c:choose>
+        <c:forEach var="student" items="${sessionScope.students}" varStatus="vs">
             <tr>
-                <th>序号</th>
-                <th>姓名</th>
-                <th>性别</th>
-                <th>出生日期</th>
-                <th colspan="2">操作</th>
+                <td><input class="to_be_delete" type="checkbox" name="ids" value="${student.id}">${vs.count}</td>
+                <td>${student.name}</td>
+                <td>${student.gender}</td>
+                <td>${student.dob}</td>
+                <td><a href="student?action=queryById&id=${student.id}">编辑</a></td>
+                <td><a href="student?action=remove&id=${student.id}" onclick="return del()">删除</a></td>
             </tr>
-        </c:otherwise>
-    </c:choose>
-    <c:forEach var="student" items="${sessionScope.students}" varStatus="vs">
-        <tr>
-            <td>${vs.count}</td>
-            <td>${student.name}</td>
-            <td>${student.gender}</td>
-            <td>${student.dob}</td>
-            <td><a href="student?action=queryById&id=${student.id}">编辑</a></td>
-            <td><a href="student?action=remove&id=${student.id}" onclick="return del()">删除</a></td>
-        </tr>
-    </c:forEach>
-</table>
+        </c:forEach>
+    </table>
+    <input type="submit" value="删除">
+</form>
 <hr>
 ${requestScope.message}
 </body>

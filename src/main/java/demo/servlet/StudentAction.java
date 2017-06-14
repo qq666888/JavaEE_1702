@@ -52,6 +52,11 @@ public class StudentAction extends HttpServlet {
             return;
         }
 
+        if ("batchRemove".equals(action)) {
+            batchRemove(req, resp);
+            return;
+        }
+
         req.setAttribute("message", "出了一点问题");
         req.getRequestDispatcher("default.jsp").forward(req, resp);
     }
@@ -191,32 +196,47 @@ public class StudentAction extends HttpServlet {
         }
     }
 
-    private void remove(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        int id = Integer.parseInt(req.getParameter("id"));
-
+    private void removeById(int id, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Connection connection = Db.getConnection();
         PreparedStatement preparedStatement = null;
 
         String sql = "DELETE FROM db_javaee.student WHERE id = ?";
 
         try {
-            if (connection != null) {
+            if (isConnected(connection, req, resp)) {
                 preparedStatement = connection.prepareStatement(sql);
-            } else {
-                req.setAttribute("message", "Error.");
-                req.getRequestDispatcher("index.jsp").forward(req, resp);
-                return;
             }
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
-
-            resp.sendRedirect("student?action=queryAll");
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             Db.close(null, preparedStatement, connection); // ?
         }
+    }
+
+    private void remove(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int id = Integer.parseInt(req.getParameter("id"));
+        removeById(id, req, resp);
+        resp.sendRedirect("student?action=queryAll");
+    }
+
+    private void batchRemove(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String[] ids = req.getParameterValues("ids");
+        for (String idString : ids) {
+            int id = Integer.parseInt(idString);
+            removeById(id, req, resp);
+        }
+        resp.sendRedirect("student?action=queryAll");
+    }
+
+    private boolean isConnected(Connection connection, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (connection == null) {
+            req.setAttribute("message", "Error.");
+            req.getRequestDispatcher("default.jsp").forward(req, resp);
+            return false;
+        }
+        return true;
     }
 
     @Override
