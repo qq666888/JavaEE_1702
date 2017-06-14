@@ -24,7 +24,14 @@ public class IpAction extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String ip = req.getParameter("ip").trim();
+        if (ip.length() == 0) {
+            ip = req.getRemoteAddr();
+        }
+        req.getSession().setAttribute("geo", getGeo(ip));
+        req.getRequestDispatcher("ip.jsp").forward(req, resp);
+    }
 
+    public static String getGeo(String ip) {
         Connection connection = Db.getConnection();
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -36,19 +43,17 @@ public class IpAction extends HttpServlet {
             if (connection != null) {
                 preparedStatement = connection.prepareStatement(sql);
             } else {
-                Error.showErrorMessage(req, resp);
-                return;
+                return null;
             }
             preparedStatement.setString(1, ip);
             resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            String geo = resultSet.getString("geo");
-            req.getSession().setAttribute("geo", geo);
-            resp.sendRedirect("ip.jsp");
+            return resultSet.getString("geo");
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             Db.close(resultSet, preparedStatement, connection);
         }
+        return null;
     }
 }
