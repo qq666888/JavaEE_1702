@@ -10,7 +10,7 @@ import java.io.IOException;
  * https://github.com/thu/JavaEE_1702/
  * filter 过滤器\ ['fɪltə] encoding 编码\ [ɪn'kəʊdɪŋ]
  */
-@WebFilter(urlPatterns = "/*")
+//@WebFilter(urlPatterns = "/*")
 public class EncodingFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
