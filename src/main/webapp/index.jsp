@@ -24,13 +24,7 @@
     }
 %>
 <h1>主页</h1>
-<p><%=session.getAttribute("nick")%>
-</p>
-<%
-    pageContext.setAttribute("key", "value");
-    application.setAttribute("app-key", "app-value");
-
-%>
+<p>${sessionScope.nick}</p>
 <p><a href="user?action=logout">注销</a></p>
 <hr>
 <form action="student" method="post">
@@ -57,11 +51,6 @@
     %>
 </table>
 <hr>
-<%
-    String message = (String) request.getAttribute("message");
-    if (message != null) {
-        out.print(message);
-    }
-%>
+${requestScope.message}
 </body>
 </html>
