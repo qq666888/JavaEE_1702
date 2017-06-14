@@ -9,6 +9,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
     <title>Title</title>
@@ -19,11 +20,9 @@
     </script>
 </head>
 <body>
-<%
-    if (session.getAttribute("nick") == null) {
-        response.sendRedirect("default.jsp");
-    }
-%>
+<c:if test="${sessionScope.nick eq null}">
+    <c:redirect url="default.jsp"/>
+</c:if>
 <h1>主页</h1>
 <p>${sessionScope.nick}</p>
 <p><a href="user?action=logout">注销</a></p>
@@ -37,13 +36,20 @@
 </form>
 <hr>
 <table border="1">
-    <tr>
-        <th>序号</th>
-        <th>姓名</th>
-        <th>性别</th>
-        <th>出生日期</th>
-        <th colspan="2">操作</th>
-    </tr>
+    <c:choose>
+        <c:when test="${fn:length(sessionScope.students) eq 0}">
+            当前没有记录
+        </c:when>
+        <c:otherwise>
+            <tr>
+                <th>序号</th>
+                <th>姓名</th>
+                <th>性别</th>
+                <th>出生日期</th>
+                <th colspan="2">操作</th>
+            </tr>
+        </c:otherwise>
+    </c:choose>
     <c:forEach var="student" items="${sessionScope.students}" varStatus="vs">
         <tr>
             <td>${vs.count}</td>
