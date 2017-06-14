@@ -38,7 +38,12 @@ FROM db_javaee.student;
 TRUNCATE TABLE db_javaee.user;
 TRUNCATE TABLE db_javaee.student;
 
+SELECT *
+FROM db_1702.ip;
 
+SELECT geo
+FROM db_1702.ip
+WHERE inet_aton('111.222.111.222') BETWEEN inet_aton(min) AND inet_aton(max);
 
 /*
 

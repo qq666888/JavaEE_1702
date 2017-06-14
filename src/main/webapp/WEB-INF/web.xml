@@ -5,7 +5,7 @@
          version="3.1">
 
     <welcome-file-list>
-        <welcome-file>default.jsp</welcome-file>
+        <welcome-file>ip.jsp</welcome-file>
     </welcome-file-list>
 
     <!--eXtension Markup Language-->

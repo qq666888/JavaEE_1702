@@ -2,6 +2,7 @@ package demo.servlet;
 
 import demo.model.Student;
 import demo.util.Db;
+import demo.util.Error;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -141,8 +142,7 @@ public class StudentAction extends HttpServlet {
             if (connection != null) {
                 preparedStatement = connection.prepareStatement(sql);
             } else {
-                req.setAttribute("message", "Error.");
-                req.getRequestDispatcher("index.jsp").forward(req, resp);
+                Error.showErrorMessage(req, resp);
                 return;
             }
             preparedStatement.setInt(1, id);
@@ -177,8 +177,7 @@ public class StudentAction extends HttpServlet {
             if (connection != null) {
                 preparedStatement = connection.prepareStatement(sql);
             } else {
-                req.setAttribute("message", "Error.");
-                req.getRequestDispatcher("index.jsp").forward(req, resp);
+                Error.showErrorMessage(req, resp);
                 return;
             }
             preparedStatement.setString(1, name);
@@ -203,8 +202,11 @@ public class StudentAction extends HttpServlet {
         String sql = "DELETE FROM db_javaee.student WHERE id = ?";
 
         try {
-            if (isConnected(connection, req, resp)) {
+            if (connection != null) {
                 preparedStatement = connection.prepareStatement(sql);
+            } else {
+                Error.showErrorMessage(req, resp);
+                return;
             }
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
@@ -223,20 +225,16 @@ public class StudentAction extends HttpServlet {
 
     private void batchRemove(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String[] ids = req.getParameterValues("ids");
+        if (ids == null) {
+            req.setAttribute("message", "...");
+            req.getRequestDispatcher("index.jsp").forward(req, resp);
+            return;
+        }
         for (String idString : ids) {
             int id = Integer.parseInt(idString);
             removeById(id, req, resp);
         }
         resp.sendRedirect("student?action=queryAll");
-    }
-
-    private boolean isConnected(Connection connection, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (connection == null) {
-            req.setAttribute("message", "Error.");
-            req.getRequestDispatcher("default.jsp").forward(req, resp);
-            return false;
-        }
-        return true;
     }
 
     @Override
