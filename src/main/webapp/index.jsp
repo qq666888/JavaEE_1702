@@ -8,6 +8,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Title</title>
@@ -37,18 +38,22 @@
 <hr>
 <table border="1">
     <tr>
-        <th>ID</th>
+        <th>序号</th>
         <th>姓名</th>
         <th>性别</th>
         <th>出生日期</th>
         <th colspan="2">操作</th>
     </tr>
-    <%
-        List<Student> resultSet = (List<Student>) session.getAttribute("students");
-        for (Student student : resultSet) {
-            out.print("<tr>" + "<td>" + student.getId() + "</td>" + "<td>" + student.getName() + "</td>" + "<td>" + student.getGender() + "</td>" + "<td>" + student.getDob() + "<td><a href='student?action=queryById&id=" + student.getId() + "'>编辑</a></td>" + "<td><a href='student?action=remove&id=" + student.getId() + "' onclick='return del()'>删除</a></td>" + "</tr>");
-        }
-    %>
+    <c:forEach var="student" items="${sessionScope.students}" varStatus="vs">
+        <tr>
+            <td>${vs.count}</td>
+            <td>${student.name}</td>
+            <td>${student.gender}</td>
+            <td>${student.dob}</td>
+            <td><a href="student?action=queryById&id=${student.id}">编辑</a></td>
+            <td><a href="student?action=remove&id=${student.id}" onclick="return del()">删除</a></td>
+        </tr>
+    </c:forEach>
 </table>
 <hr>
 ${requestScope.message}
