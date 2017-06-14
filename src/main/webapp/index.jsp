@@ -13,6 +13,16 @@
 <html>
 <head>
     <title>Title</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #333;
+        }
+    </style>
     <script>
         function del() {
             return confirm('DEL?');
@@ -45,7 +55,7 @@
 <hr>
 <form action="student" method="post">
     <input type="hidden" name="action" value="batchRemove">
-    <table border="1">
+    <table>
         <c:choose>
             <c:when test="${fn:length(sessionScope.students) eq 0}">
                 当前没有记录
@@ -71,7 +81,9 @@
             </tr>
         </c:forEach>
     </table>
-    <input type="submit" value="删除">
+    <c:if test="${fn:length(sessionScope.students) ne 0}">
+        <input type="submit" value="删除">
+    </c:if>
 </form>
 <hr>
 ${requestScope.message}
