@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
  * 6/15/17 08:37
  * https://github.com/thu/JavaEE_1702/
  */
-@WebListener
-public class TestListener implements ServletRequestListener, ServletRequestAttributeListener {
+//@WebListener
+public class RequestListenerTest implements ServletRequestListener, ServletRequestAttributeListener {
 
     @Override
     public void requestDestroyed(ServletRequestEvent sre) { // event 事件

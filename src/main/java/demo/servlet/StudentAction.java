@@ -118,7 +118,7 @@ public class StudentAction extends HttpServlet {
                         resultSet.getString("dob"));
                 students.add(student);
             }
-            req.getSession().setAttribute("students", students);
+            req.getSession().setAttribute("students", students); // replaced
             resp.sendRedirect("index.jsp");
         } catch (SQLException e) {
             e.printStackTrace();
