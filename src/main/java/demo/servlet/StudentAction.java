@@ -105,8 +105,7 @@ public class StudentAction extends HttpServlet {
             if (connection != null) {
                 preparedStatement = connection.prepareStatement(sql);
             } else {
-                req.setAttribute("message", "Error.");
-                req.getRequestDispatcher("index.jsp").forward(req, resp);
+                Error.showErrorMessage(req, resp);
                 return;
             }
             resultSet = preparedStatement.executeQuery();
